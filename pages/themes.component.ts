@@ -10,9 +10,71 @@ import { FormInterface } from 'src/app/modules/form/interfaces/form.interface';
 	styleUrls: ['./themes.component.scss']
 })
 export class ThemesComponent {
-	columns = ['name', 'description'];
+	columns = ['name', 'module'];
 
-	form: FormInterface = this._form.getForm('theme');
+	form: FormInterface = this._form.getForm("theme", {
+		formId: "theme",
+		title: "Theme",
+		components: [
+			{
+				name: "Text",
+				key: "name",
+				focused: true,
+				fields: [
+					{
+						name: "Placeholder",
+						value: "fill operators title",
+					},
+					{
+						name: "Label",
+						value: "Title",
+					},
+				],
+			},
+			{
+				name: "Text",
+				key: "description",
+				fields: [
+					{
+						name: "Placeholder",
+						value: "fill operators description",
+					},
+					{
+						name: "Label",
+						value: "Description",
+					},
+				],
+			},
+			{
+				name: "Text",
+				key: "domain",
+				fields: [
+					{
+						name: "Placeholder",
+						value: "fill domain",
+					},
+					{
+						name: "Label",
+						value: "Domain",
+					},
+				],
+			},
+			{
+				name: 'Select',
+				key: 'module',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'Select module'
+					},
+					{
+						name: 'Items',
+						value: ["operator", "store"]
+					}
+				]
+			},
+		],
+	});
 
 	config = {
 		// create: () => {
@@ -59,10 +121,10 @@ export class ThemesComponent {
 	}
 
 	constructor(
-		private _form: FormService,
-		private _ts: ThemeService,
-		private _alert: AlertService,
 		private _translate: TranslateService,
-		private _core: CoreService
+		private _alert: AlertService,
+		private _form: FormService,
+		private _core: CoreService,
+		private _ts: ThemeService
 	) {}
 }
