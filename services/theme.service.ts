@@ -12,8 +12,8 @@ export interface Theme {
 	providedIn: 'root'
 })
 export class ThemeService {
+	byModule: Record<string, Theme[]> = {};
 	themes: Theme[] = [];
-
 	_themes: any = {};
 
 	new(): Theme {
@@ -24,7 +24,10 @@ export class ThemeService {
 		private mongo: MongoService,
 		private alert: AlertService
 	) {
-		this.themes = mongo.get('theme', {}, (arr: any, obj: any) => {
+		this.themes = mongo.get('theme', {
+			groups: 'module'
+		}, (arr: any, obj: any) => {
+			this.byModule = obj.module;
 			this._themes = obj;
 		});
 	}
