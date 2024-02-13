@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormService } from 'src/app/modules/form/form.service';
-import { ThemeService, Theme } from 'src/app/modules/theme/services/theme.service';
+import {
+	ThemeService,
+	Theme
+} from 'src/app/modules/theme/services/theme.service';
 import { AlertService, CoreService, HttpService } from 'wacom';
 import { TranslateService } from 'src/app/modules/translate/translate.service';
 import { FormInterface } from 'src/app/modules/form/interfaces/form.interface';
@@ -10,26 +13,33 @@ import { FormInterface } from 'src/app/modules/form/interfaces/form.interface';
 	styleUrls: ['./themes.component.scss']
 })
 export class ThemesComponent {
-	columns = ['name', 'module'];
+	columns = [
+		'enabled',
+		'top',
+		'url',
+		'name',
+		'module',
+		'repoPrefix'
+	];
 
-	form: FormInterface = this._form.getForm("theme", {
-		formId: "theme",
-		title: "Theme",
+	form: FormInterface = this._form.getForm('theme', {
+		formId: 'theme',
+		title: 'Theme',
 		components: [
 			{
-				name: "Text",
-				key: "name",
+				name: 'Text',
+				key: 'name',
 				focused: true,
 				fields: [
 					{
-						name: "Placeholder",
-						value: "fill operators title",
+						name: 'Placeholder',
+						value: 'fill operators title'
 					},
 					{
-						name: "Label",
-						value: "Title",
-					},
-				],
+						name: 'Label',
+						value: 'Title'
+					}
+				]
 			},
 			{
 				name: 'Select',
@@ -41,67 +51,67 @@ export class ThemesComponent {
 					},
 					{
 						name: 'Items',
-						value: ["operator", "store", "app"]
+						value: ['operator', 'store', 'app']
 					}
 				]
 			},
 			{
-				name: "Text",
-				key: "description",
+				name: 'Text',
+				key: 'description',
 				fields: [
 					{
-						name: "Placeholder",
-						value: "fill operators description",
+						name: 'Placeholder',
+						value: 'fill operators description'
 					},
 					{
-						name: "Label",
-						value: "Description",
-					},
-				],
+						name: 'Label',
+						value: 'Description'
+					}
+				]
 			},
 			{
-				name: "Text",
-				key: "repo",
+				name: 'Text',
+				key: 'repo',
 				fields: [
 					{
-						name: "Placeholder",
-						value: "fill repository",
+						name: 'Placeholder',
+						value: 'fill repository'
 					},
 					{
-						name: "Label",
-						value: "Repository",
-					},
-				],
+						name: 'Label',
+						value: 'Repository'
+					}
+				]
 			},
 			{
-				name: "Text",
-				key: "branch",
+				name: 'Text',
+				key: 'branch',
 				fields: [
 					{
-						name: "Placeholder",
-						value: "fill repository branch",
+						name: 'Placeholder',
+						value: 'fill repository branch'
 					},
 					{
-						name: "Label",
-						value: "Repository branch",
-					},
-				],
+						name: 'Label',
+						value: 'Repository branch'
+					}
+				]
 			},
 			{
-				name: "Photo",
-				key: "thumb",
+				name: 'Photo',
+				key: 'thumb',
 				fields: [
 					{
-						name: "Placeholder",
-						value: "fill thumb",
+						name: 'Placeholder',
+						value: 'fill thumb'
 					},
 					{
-						name: "Label",
-						value: "Thumb",
-					},
-				],
-			},
-		],
+						name: 'Label',
+						value: 'Thumb'
+					}
+				]
+			}
+		]
 	});
 
 	config = {
@@ -158,15 +168,7 @@ export class ThemesComponent {
 			{
 				icon: 'cloud_download',
 				click: (doc: Theme) => {
-					this._form.modalUnique<Theme>(
-						'theme',
-						'folder',
-						doc,
-						'',
-						() => {
-							this.sync(doc);
-						}
-					);
+					this._form.modalUnique<Theme>('theme', 'folder', doc);
 				}
 			}
 		]
@@ -178,18 +180,27 @@ export class ThemesComponent {
 			return;
 		}
 		this._sync = true;
-		this._http.post('/api/theme/sync', doc, () => {
-			this._sync = false;
-			this._alert.show({
-				text: 'Synchronization completed'
-			});
-		}, ()=>{
-			this._sync = false;
-		});
+		this._http.post(
+			'/api/theme/sync',
+			doc,
+			() => {
+				this._sync = false;
+				this._alert.show({
+					text: 'Synchronization completed'
+				});
+			},
+			() => {
+				this._sync = false;
+			}
+		);
 	}
 
 	get rows(): Theme[] {
 		return this._ts.themes;
+	}
+
+	update(theme: Theme) {
+		this._ts.update(theme);
 	}
 
 	constructor(

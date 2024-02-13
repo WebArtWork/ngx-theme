@@ -1,6 +1,21 @@
-<wtable
-	title="Themes"
-	[columns]="columns"
-	[config]="config"
-	[rows]="rows"
-></wtable>
+<wtable title="Themes" [columns]="columns" [config]="config" [rows]="rows">
+	<ng-template cell="url" let-element>
+		<a href="https://{{element.folder}}.waiter.cloud" target="_blank"
+			>{{element.folder}}.waiter.cloud</a
+		>
+	</ng-template>
+	<ng-template cell="enabled" let-element>
+		<winput
+			(wChange)="element.enabled = $event; update(element)"
+			[value]="element.enabled"
+			type="checkbox"
+		></winput>
+	</ng-template>
+	<ng-template cell="top" let-element>
+		<winput
+			(wChange)="element.top = $event; update(element)"
+			[value]="element.top"
+			type="checkbox"
+		></winput>
+	</ng-template>
+</wtable>
