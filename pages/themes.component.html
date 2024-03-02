@@ -1,7 +1,7 @@
 <wtable title="Themes" [columns]="columns" [config]="config" [rows]="rows">
 	<ng-template cell="url" let-element>
-		<a href="https://{{element.folder}}.waiter.cloud" target="_blank"
-			>{{element.folder}}.waiter.cloud</a
+		<a href="https://{{element.folder}}.{{domain}}" target="_blank"
+			>{{element.folder}}.{{domain}}</a
 		>
 	</ng-template>
 	<ng-template cell="enabled" let-element>

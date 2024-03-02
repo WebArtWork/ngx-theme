@@ -13,6 +13,7 @@ import { FormInterface } from 'src/app/modules/form/interfaces/form.interface';
 	styleUrls: ['./themes.component.scss']
 })
 export class ThemesComponent {
+	domain = window.location.hostname;
 	columns = [
 		'enabled',
 		'top',
