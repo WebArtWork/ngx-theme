@@ -4,9 +4,10 @@ import {
 	ThemeService,
 	Theme
 } from 'src/app/modules/theme/services/theme.service';
-import { AlertService, CoreService, HttpService } from 'wacom';
+import { AlertService, CoreService, HttpService, MongoService } from 'wacom';
 import { TranslateService } from 'src/app/modules/translate/translate.service';
 import { FormInterface } from 'src/app/modules/form/interfaces/form.interface';
+import { Planfeature, PlanfeatureService } from '../../plan/services/planfeature.service';
 
 @Component({
 	templateUrl: './themes.component.html',
@@ -23,6 +24,7 @@ export class ThemesComponent {
 		'repoPrefix'
 	];
 
+	features: Planfeature[] = [];
 	form: FormInterface = this._form.getForm('theme', {
 		formId: 'theme',
 		title: 'Theme',
@@ -53,6 +55,24 @@ export class ThemesComponent {
 					{
 						name: 'Items',
 						value: ['operator', 'store', 'app']
+					}
+				]
+			},
+			{
+				name: 'Select',
+				key: 'features',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'Select features'
+					},
+					{
+						name: 'Items',
+						value: this.features
+					},
+					{
+						name: 'Multiple',
+						value: true
 					}
 				]
 			},
@@ -206,10 +226,18 @@ export class ThemesComponent {
 
 	constructor(
 		private _translate: TranslateService,
+		private _pfs: PlanfeatureService,
 		private _alert: AlertService,
+		private _mongo: MongoService,
 		private _form: FormService,
 		private _core: CoreService,
 		private _http: HttpService,
-		private _ts: ThemeService
-	) {}
+		private _ts: ThemeService,
+	) {
+		this._mongo.on('userfeature', () => {
+			for (const feature of this._pfs.planfeatures) {
+				this.features.push(feature);
+			}
+		});
+	}
 }

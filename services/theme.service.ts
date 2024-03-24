@@ -7,6 +7,7 @@ export interface Theme {
 	name: string;
 	description: string;
 	variables: Record<string, unknown>;
+	features: string[];
 	repo: string;
 }
 export interface ThemeTemplatePage {
